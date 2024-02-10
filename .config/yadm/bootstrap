@@ -2,6 +2,7 @@
 # vim: set ft=sh sw=2 et :
 
 # Source:
+# https://yadm.io/docs/bootstrap#
 # https://github.com/duckfullstop/dotfiles/blob/f734eea399a7ccd1c25b57242997e79f230abc4d/.config/yadm/bootstrap
 # https://github.com/DoomHammer/dotfiles/blob/master/.config/yadm/bootstrap
 install_brew() {
@@ -39,8 +40,11 @@ configure_macos() {
   defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 82 "{enabled = 0; value = { parameters = (65535, 124, 8781824); type = standard;};}"
 }
 
-configure_zsh() {
-  source $HOME/.zshrc
+# Source:
+# https://yadm.io/docs/bootstrap#
+update_yadm_repo_origin_url() {
+  echo "Updating the yadm repo origin URL"
+  yadm remote set-url origin "git@github.com:MyUser/dotfiles.git"
 }
 
 system_type=$(uname -s)
@@ -51,4 +55,4 @@ fi
 
 install_brew
 
-configure_zsh
+update_yadm_repo_origin_url
