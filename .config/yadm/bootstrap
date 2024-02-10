@@ -1,0 +1,54 @@
+#!/bin/sh
+# vim: set ft=sh sw=2 et :
+
+# Source:
+# https://github.com/duckfullstop/dotfiles/blob/f734eea399a7ccd1c25b57242997e79f230abc4d/.config/yadm/bootstrap
+# https://github.com/DoomHammer/dotfiles/blob/master/.config/yadm/bootstrap
+install_brew() {
+  # install Homebrew if it's missing
+  if ! command -v brew >/dev/null 2>&1; then
+    echo "Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+  fi
+
+  if [ -f "$HOME/.Brewfile" ]; then
+    echo "Updating Homebrew bundle"
+    brew bundle --global
+  fi
+  }
+
+# Source:
+# https://github.com/DoomHammer/dotfiles/blob/master/.config/yadm/bootstrap
+configure_macos() {
+  # Disable the UI sound
+  defaults write com.apple.systemsound "com.apple.sound.uiaudio.enabled" -int 0
+  sudo launchctl unload /System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist
+  sudo launchctl load /System/Library/LaunchDaemons/com.apple.audio.coreaudiod.plist
+
+  # Enable Dock autohide
+  defaults write com.apple.dock autohide -bool true
+  # No app icons in the Dock
+  defaults delete com.apple.dock persistent-apps
+  defaults delete com.apple.dock persistent-others
+  killall Dock
+
+  # Disable Ctrl+Arrow mapping for Mission Control as it's more useful for jumping words in a terminal
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 79 "{enabled = 0; value = { parameters = (65535, 123, 8650752); type = standard;};}"
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 80 "{enabled = 0; value = { parameters = (65535, 123, 8781824); type = standard;};}"
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 81 "{enabled = 0; value = { parameters = (65535, 124, 8650752); type = standard;};}"
+  defaults write com.apple.symbolichotkeys AppleSymbolicHotKeys -dict-add 82 "{enabled = 0; value = { parameters = (65535, 124, 8781824); type = standard;};}"
+}
+
+configure_zsh() {
+  source $HOME/.zshrc
+}
+
+system_type=$(uname -s)
+
+if [ "$system_type" = "Darwin" ]; then
+  configure_macos
+fi
+
+install_brew
+
+configure_zsh
