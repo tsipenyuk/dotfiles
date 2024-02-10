@@ -1,0 +1,40 @@
+{
+  "title": "Slack: code as in Confluence",
+  "rules": [
+    {
+      "description": "Option-Shift-M to Option-Shift-C in Slack",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "m",
+            "modifiers": {
+              "mandatory": [
+                "shift",
+                "option"
+              ]
+            }
+          },
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "description": "Only for Slack",
+              "bundle_identifiers": [
+                "com.tinyspeck.slackmacgap"
+              ]
+            }
+          ],
+          "to": [
+            {
+              "key_code": "c",
+              "modifiers": [
+                "shift",
+                "option"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
