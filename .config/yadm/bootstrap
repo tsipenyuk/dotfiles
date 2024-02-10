@@ -44,7 +44,7 @@ configure_macos() {
 # https://yadm.io/docs/bootstrap#
 update_yadm_repo_origin_url() {
   echo "Updating the yadm repo origin URL"
-  yadm remote set-url origin "git@github.com:MyUser/dotfiles.git"
+  yadm remote set-url origin "git@github.com:tsipenyuk/dotfiles.git"
 }
 
 system_type=$(uname -s)
